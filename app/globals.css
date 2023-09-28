@@ -8,11 +8,31 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
+  }
+}
+
+
+@layer base {
+  html {
+    font-size:10px;
+    @media screen(sm) {
+      font-size: 14px;
+    }
+    @media screen(md) {
+      font-size: 18px;
+    }
+    @media screen(lg) {
+      font-size: 24px;
+    }
+    @media screen(2xl) {
+      font-size: 32px;
+    }
   }
 }
 
