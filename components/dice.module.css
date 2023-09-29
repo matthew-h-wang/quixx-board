@@ -1,0 +1,18 @@
+.die {
+    translate: -75%;
+    rotate: -135deg;
+    scale: 50%;
+    animation: roll-in 0.5s forwards;
+}
+
+@keyframes roll-in {
+    100% {     
+        translate: 0;
+    }
+    100% {
+        rotate: 0deg;
+    }
+    100% {
+        scale: 100%;
+    }
+}

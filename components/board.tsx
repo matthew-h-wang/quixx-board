@@ -264,7 +264,8 @@ function ColorRow({ rowState, toggleChecked, toggleLocked, colorClasses, nums }:
 
 
 function CheckBox({ label = "", checked = false, disabled = false, handleToggle = () => { } }: { label?: string, checked?: boolean, disabled?: boolean, handleToggle?: MouseEventHandler }) {
-    return <Box onClick={handleToggle} className={clsx("flex-auto text-3xl rounded w-12 h-full p-1 text-center select-none cursor-pointer",
+    return <Box onClick={handleToggle} className={clsx("flex-auto text-3xl rounded w-12 h-full p-1 text-center select-none",
+        !disabled && "cursor-pointer",
         disabled || checked ? "bg-white/50" : "bg-white/90",
         checked ? "text-black font-bold" : "text-inherit",
         checked && !disabled && "ring-1 ring-white ring-offset-1 ring-offset-transparent"

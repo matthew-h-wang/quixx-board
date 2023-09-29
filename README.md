@@ -1,6 +1,10 @@
 # Qwixx Board
 
+A Qwixx board and dice roller utility.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+Built with TailwindCSS and MaterialUI
 
 Configured for static export, deploying with Github Pages.
 
