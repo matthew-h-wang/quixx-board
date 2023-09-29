@@ -6,6 +6,8 @@ import { Button, IconButton, Box, Divider,
         Link } from "@mui/material";
 import HelpIcon from '@mui/icons-material/Help';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 
 type RowColor = 'red' | 'yellow' | 'blue' | 'green';
@@ -278,7 +280,9 @@ function LockBox({ locked, checked, handleToggle }: { locked: boolean, checked: 
         checked ? "text-black font-bold" : "text-inherit",
         checked || locked ? "bg-white/50 ring-1 ring-white ring-offset-1 ring-offset-transparent" : "bg-white/90",
     )}>
-        {locked ? '\u{1F512}' : (checked ? '\u{2717}' : '\u{1F513}')}
+        {locked ? <LockIcon className="align-middle"/> : (checked ? <span className="align-middle">{'\u{2717}'}</span> : <LockOpenIcon className="align-middle"/>)}
+
+        {/* {locked ? '\u{1F512}' : (checked ? '\u{2717}' : '\u{1F513}')} */}
     </Box>
 }
 
