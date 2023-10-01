@@ -1,5 +1,5 @@
 .die {
-    translate: -75%;
+    translate: -75% -35%;
     rotate: -135deg;
     scale: 50%;
     animation: roll-in 0.5s forwards;
