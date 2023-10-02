@@ -130,7 +130,7 @@ export default function Board() {
         <Box className="bg-slate-100 border md:border-2 lg:border-4 border-black border-solid rounded-xl w-full h-full px-3 py-2">
 
             <Box className="text-lg">
-                <span className="text-slate-800 font-extrabold align-middle">QWIXX{'\u{2122}'} </span> <span className="text-slate-500 align-middle">GAMEWRIGHT</span>
+                <span className="text-slate-800 font-extrabold align-middle">QWIXX{'\u{2122}'} </span> 
                 <IconButton onClick={() => setShowAboutModal(true)} color="primary">
                     <HelpIcon/>
                 </IconButton>
@@ -174,19 +174,19 @@ function BoardSkeleton(){
         <Box className="bg-slate-100 border md:border-2 lg:border-4 border-black border-solid rounded-xl w-full h-full px-3 py-2">
 
             <Box className="text-lg">
-                <span className="text-slate-800 font-extrabold align-middle">QWIXX{'\u{2122}'} </span> <span className="text-slate-500 align-middle">GAMEWRIGHT</span>
+                <span className="text-slate-800 font-extrabold align-middle">QWIXX{'\u{2122}'} </span> 
                 <IconButton color="primary" disabled>
                     <HelpIcon/>
                 </IconButton>
             </Box>
 
             <div role="status" className="w-full animate-pulse">
-                <div className="bg-red-500 h-14 w-full my-2 p-2"></div>
-                <div className="bg-yellow-500 h-14 w-full my-2 p-2"></div>
-                <div className="bg-green-500 h-14 w-full my-2 p-2"></div>
-                <div className="bg-blue-500 h-14 w-full my-2 p-2"></div>
-                <div className="bg-slate-300 h-14 w-full my-2 p-2"></div>
-                <div className="bg-slate-200 h-14 w-full my-2 p-2"></div>
+                <div className="bg-red-500 h-14 w-full mb-2 p-2"></div>
+                <div className="bg-yellow-500 h-14 w-full mb-2 p-2"></div>
+                <div className="bg-green-500 h-14 w-full mb-2 p-2"></div>
+                <div className="bg-blue-500 h-14 w-full mb-2 p-2"></div>
+                <div className="bg-slate-200 h-14 w-full mb-2 p-2 sm:hidden"></div>
+                <div className="bg-slate-300 h-14 w-full mb-2 p-2"></div>
             </div>
         </Box>
     );
@@ -201,18 +201,18 @@ function ResetModal({ isOpen, handleConfirm, handleCancel }: { isOpen: boolean, 
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle id="alert-dialog-title" className="text-2xl sm:text-xl">
           {"Reset Board?"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id="alert-dialog-description" className="text-xl sm:text-lg">
           Are you sure you want to reset your board? Your game progress will be permanently lost.
 
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleConfirm} variant="contained" color="error" autoFocus>Reset</Button>
-          <Button onClick={handleCancel} autoFocus>Cancel</Button>
+          <Button className="text-xl sm:text-lg"  onClick={handleConfirm} variant="contained" color="error" autoFocus>Reset</Button>
+          <Button className="text-xl sm:text-lg"  onClick={handleCancel} autoFocus>Cancel</Button>
         </DialogActions>
       </Dialog>
     );
@@ -229,19 +229,19 @@ function AboutModal({ isOpen, handleClose }: { isOpen: boolean, handleClose: Mou
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle id="alert-dialog-title" className="text-2xl sm:text-xl">
           {"About Qwixx"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-          Qwixx{'\u{2122}'}  is a game published by Gamewright, played with 6 dice and a board for each player.
-          This app is a digital replacement for the original paper boards.
+          <DialogContentText id="alert-dialog-description" className="text-xl sm:text-lg">
+          Qwixx{'\u{2122}'}  is a game published by Gamewright, played with 6 dice and a markable board for each player.
+          This app is a digital replacement for the physical boards and dice, featuring toggleable auto-scoring and auto-saving.
         <br/>
         <Link rel="noopener" target="_blank" href="https://www.ultraboardgames.com/qwixx/game-rules.php" underline="hover">Read the rules here.</Link>
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} autoFocus>Close</Button>
+        <DialogActions >
+          <Button className="text-xl sm:text-lg"  onClick={handleClose} autoFocus>Close</Button>
         </DialogActions>
       </Dialog>
 
@@ -299,7 +299,7 @@ function LockBox({ locked, checked, handleToggle }: { locked: boolean, checked: 
 function PenaltyRow({ checked, toggleChecked }: { checked: boolean[], toggleChecked: (i: number) => void }) {
 
     return (
-    <Box className={clsx("whitespace-nowrap flex flex-row sm:flex-col-reverse flex-nowrap items-center justify-center w-full")}>
+    <Box className={clsx("whitespace-nowrap flex flex-row sm:flex-col-reverse flex-nowrap items-center justify-center w-full space-x-1")}>
         <label className="text-md sm:text-sm">PENALTIES</label>
 
         <Box className={clsx("whitespace-nowrap flex flex-nowrap items-center justify-center space-x-1 h-10 w-full mb-2")}>
