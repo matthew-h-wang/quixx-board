@@ -1,6 +1,6 @@
 "use client"
 import clsx from "clsx";
-import { useState, useReducer, useEffect, MouseEventHandler } from "react";
+import { useState, useReducer, useEffect, MouseEventHandler, Dispatch, SetStateAction } from "react";
 import { Button, IconButton, Box, Divider,
         Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
         Link } from "@mui/material";
@@ -10,9 +10,11 @@ import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 
-type RowColor = 'red' | 'yellow' | 'blue' | 'green';
-type RowState = { checked: boolean[], locked: boolean };
-type BoardState = {
+export type RowColor = 'red' | 'yellow' | 'blue' | 'green';
+export const ALL_ROW_COLORS : RowColor[] =["red","yellow","blue","green"]
+
+export type RowState = { checked: boolean[], locked: boolean };
+export type BoardState = {
     red: RowState,
     yellow: RowState,
     green: RowState,
@@ -23,6 +25,21 @@ type BoardState = {
 
 const ASCENDING: string[] = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 const DESCENDING: string[] = ASCENDING.slice().reverse();
+
+export function getEmptyBoardState() : BoardState {
+    return {
+        red: getEmptyRowState(),
+        yellow: getEmptyRowState(),
+        green: getEmptyRowState(),
+        blue: getEmptyRowState(),
+        penaltyChecked: Array(4).fill(false),
+        scoreHidden: false
+    }
+}
+
+export function isRowLocked(row : RowState) {
+    return row.locked || row.checked[row.checked.length - 1];
+}
 
 function getEmptyRowState() {
     return { checked: Array(ASCENDING.length).fill(false), locked: false }
@@ -45,20 +62,8 @@ function getRowScore(checked: boolean[]): number {
     return count * (count + 1) / 2;
 }
 
-export default function Board() {
-
-    const [boardState, setBoardState] = useState<BoardState>(
-        () => {
-            return {
-                red: getEmptyRowState(),
-                yellow: getEmptyRowState(),
-                green: getEmptyRowState(),
-                blue: getEmptyRowState(),
-                penaltyChecked: Array(4).fill(false),
-                scoreHidden: false
-            }
-        }
-    );
+export function Board( {boardState = getEmptyBoardState(), setBoardState = () => {}} : 
+    {boardState : BoardState, setBoardState :  Dispatch<SetStateAction<BoardState>>}  ) {
 
     const [showResetModal, setShowResetModal] = useState(false);
     const [showAboutModal, setShowAboutModal] = useState(false);

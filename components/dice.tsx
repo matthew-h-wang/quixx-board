@@ -3,8 +3,9 @@ import { Box, Button } from "@mui/material";
 import clsx from "clsx";
 import { useReducer, useState, useEffect } from "react";
 import styles from './dice.module.css';
+import {RowColor} from './board';
 
-type DieColor = "white1"|"white2"|"red"|"yellow"|"blue"|"green";
+type DieColor = "white1"|"white2"|RowColor;
 type DieFace = 1|2|3|4|5|6;
 type DieRoll = {face: DieFace, color: DieColor};
 
@@ -34,7 +35,7 @@ export function rollDice(colors: DieColor[] ) : DieRoll[] {
     });
 }
 
-export default function Dice() {
+export default function Dice({lockedColors = new Set<DieColor>()} :{lockedColors: Set<DieColor>}) {
 
     const [diceState, setDiceState] = useState<DieRoll[]>(ALL_DICE_COLORS.map((color, i) => {return {color, face: i + 1 as DieFace}}));
     const [rollCount, incrementRollCount] = useReducer((n : number) => n + 1, 0);
@@ -56,7 +57,7 @@ export default function Dice() {
     }, [diceState]);
 
     function reroll(){
-        setDiceState(rollDice(ALL_DICE_COLORS));
+        setDiceState(rollDice(ALL_DICE_COLORS.filter((color:DieColor) => !lockedColors.has(color))));
         incrementRollCount();
     }
 
