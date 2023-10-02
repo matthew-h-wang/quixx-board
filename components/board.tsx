@@ -145,15 +145,24 @@ export default function Board() {
             <ColorRow colorClasses="bg-yellow-500 text-yellow-500" nums={ASCENDING} rowState={boardState.yellow} toggleChecked={(i: number) => toggleRowChecked('yellow', i)} toggleLocked={() => toggleRowLocked('yellow')} />
             <ColorRow colorClasses="bg-green-500 text-green-500" nums={DESCENDING} rowState={boardState.green} toggleChecked={(i: number) => toggleRowChecked('green', i)} toggleLocked={() => toggleRowLocked('green')} />
             <ColorRow colorClasses="bg-blue-500 text-blue-500" nums={DESCENDING} rowState={boardState.blue} toggleChecked={(i: number) => toggleRowChecked('blue', i)} toggleLocked={() => toggleRowLocked('blue')} />
-            <PenaltyRow checked={boardState.penaltyChecked} toggleChecked={togglePenaltyChecked} />
-            {boardState.scoreHidden ?
-                <PointCountRow maxCount={ASCENDING.length + 1} />
-                : <ScoreRow redScore={getRowScore(boardState.red.checked)}
-                    yellowScore={getRowScore(boardState.yellow.checked)}
-                    greenScore={getRowScore(boardState.green.checked)}
-                    blueScore={getRowScore(boardState.blue.checked)}
-                    penaltyScore={getCheckCount(boardState.penaltyChecked) * 5} />
-            }
+            <div className="w-full flex flex-col sm:flex-row">
+                <div className="flex-auto">
+                    <PenaltyRow checked={boardState.penaltyChecked} toggleChecked={togglePenaltyChecked} />
+
+                </div>
+                <div className="flex-auto">
+                    {boardState.scoreHidden ?
+                        <PointCountRow maxCount={ASCENDING.length + 1} />
+                        : <ScoreRow redScore={getRowScore(boardState.red.checked)}
+                            yellowScore={getRowScore(boardState.yellow.checked)}
+                            greenScore={getRowScore(boardState.green.checked)}
+                            blueScore={getRowScore(boardState.blue.checked)}
+                            penaltyScore={getCheckCount(boardState.penaltyChecked) * 5} />
+                    }
+                </div>
+            </div>
+
+
             <ResetModal isOpen={showResetModal} handleConfirm={() => { resetBoard(); setShowResetModal(false) }} handleCancel={() => setShowResetModal(false)} />
             <AboutModal isOpen={showAboutModal} handleClose={() => setShowAboutModal(false)} />
         </Box>
@@ -252,7 +261,7 @@ function ColorRow({ rowState, toggleChecked, toggleLocked, colorClasses, nums }:
     }
 
     return (
-        <Box className={clsx(colorClasses, "whitespace-nowrap flex flex-nowrap justify-around space-x-1 h-14 w-full my-2 p-2")}>
+        <Box className={clsx(colorClasses, "whitespace-nowrap flex flex-nowrap justify-around space-x-1 h-14 w-full mb-2 p-2")}>
             {nums.map((n, i) =>
                 <CheckBox key={i} disabled={isDisabled(i)} label={n} handleToggle={() => { if (!isDisabled(i)) toggleChecked(i) }} checked={checked[i]} />
             )}
@@ -275,7 +284,6 @@ function CheckBox({ label = "", checked = false, disabled = false, handleToggle 
 }
 
 
-
 function LockBox({ locked, checked, handleToggle }: { locked: boolean, checked: boolean, handleToggle: MouseEventHandler }) {
     return <Box onClick={handleToggle} className={clsx("flex-auto text-xl flex-none rounded-full aspect-square h-full p-1 text-center select-none cursor-pointer",
         checked ? "text-black font-bold" : "text-inherit",
@@ -291,24 +299,38 @@ function LockBox({ locked, checked, handleToggle }: { locked: boolean, checked: 
 function PenaltyRow({ checked, toggleChecked }: { checked: boolean[], toggleChecked: (i: number) => void }) {
 
     return (
-        <Box className={clsx("whitespace-nowrap flex flex-nowrap items-center justify-center space-x-1 h-14 w-full my-2 p-2")}>
-            <label className="text-lg">PENALTIES:</label>
+    <Box className={clsx("whitespace-nowrap flex flex-row sm:flex-col-reverse flex-nowrap items-center justify-center w-full")}>
+        <label className="text-md sm:text-sm">PENALTIES</label>
+
+        <Box className={clsx("whitespace-nowrap flex flex-nowrap items-center justify-center space-x-1 h-10 w-full mb-2")}>
 
             {checked.map((_, i) =>
-                <CheckBox key={i} handleToggle={() => { toggleChecked(i) }} checked={checked[i]} />
+                <PenaltyCheckBox key={i} handleToggle={() => { toggleChecked(i) }} checked={checked[i]} />
             )}
         </Box>
+    </Box>
 
     )
 }
 
 
+
+function PenaltyCheckBox({checked = false, handleToggle = () => { } }: { checked?: boolean, handleToggle?: MouseEventHandler }) {
+    return <Box onClick={handleToggle} className={clsx("flex-auto text-2xl rounded w-8 h-full p-1 text-center select-none",
+        "border border-black border-solid",
+        "bg-white/90 text-black font-bold",
+        checked && "ring-1 ring-black "
+    )}>
+        {checked && '\u{2717}'}
+    </Box>
+}
+
 function ScoreRow({ redScore, yellowScore, greenScore, blueScore, penaltyScore }
     : { redScore: number, yellowScore: number, greenScore: number, blueScore: number, penaltyScore: number }) {
 
     return (
-        <Box className={clsx("whitespace-nowrap flex flex-nowrap items-center justify-center space-x-2 h-14 w-full my-2 p-2 text-xl")}>
-            <label className="text-lg">TOTALS:</label>
+        <Box className={clsx("whitespace-nowrap flex flex-nowrap items-center justify-center space-x-1 h-14 w-full my-2 p-2 text-xl")}>
+            {/* <label className="text-lg">TOTALS:</label> */}
             <ScoreBox score={redScore} colorClasses="bg-red-500/20 text-red-500 ring-red-500" />
             <span>+</span>
             <ScoreBox score={yellowScore} colorClasses="bg-yellow-500/20 text-yellow-500 ring-yellow-500" />
@@ -329,7 +351,7 @@ function ScoreRow({ redScore, yellowScore, greenScore, blueScore, penaltyScore }
 
 
 function ScoreBox({ score, colorClasses }: { score: number, colorClasses: string }) {
-    return <Box className={clsx("flex-auto text-3xl rounded w-12 h-full p-1 text-center",
+    return <Box className={clsx("flex-auto text-2xl rounded w-12 h-full p-1 text-center",
         colorClasses,
         "ring-2"
     )}>
@@ -339,7 +361,7 @@ function ScoreBox({ score, colorClasses }: { score: number, colorClasses: string
 
 function PointCountRow({ maxCount }: { maxCount: number }) {
     return (
-        <Box className={clsx("whitespace-nowrap flex flex-nowrap items-center justify-center space-x-2 h-14 w-full my-4 p-2 text-xl")}>
+        <Box className={clsx("whitespace-nowrap flex flex-nowrap items-center justify-center space-x-1 h-14 w-full my-2 p-2")}>
 
             {Array(maxCount).fill(null).map((_, i) =>
                 <PointCountBox key={i} count={i + 1} />
@@ -350,7 +372,7 @@ function PointCountRow({ maxCount }: { maxCount: number }) {
 }
 
 function PointCountBox({ count }: { count: number }) {
-    return <span className={clsx("flex-auto text-lg rounded w-12 h-fit p-1 text-center",
+    return <span className={clsx("flex-auto text-lg rounded h-fit p-1 text-center ",
         "bg-slate-300 text-black",
     )}>
         {count}X
