@@ -62,19 +62,22 @@ export default function Dice() {
 
     return (
         <Box className="bg-slate-100 border border-black border-dashed rounded-xl w-full h-full my-2">
-            {/* <Button variant="contained">Roll Dice</Button> */}
-            <div className="flex flex-auto justify-around space-x-1 w-full items-center">
+            <div className="flex flex-auto justify-left space-x-1 w-full items-center">
+                <Box className="float-left mx-2">
+                    <Button color="primary" variant="contained" onClick={reroll}  aria-label="roll" className="text-lg"
+                        disabled={loadingState}>
+                        Roll
+                    </Button>
+                </Box>
+                <div className="grid grid-cols-3  grid-rows-2 grid-flow-col sm:grid-cols-6 sm:grid-rows-1 sm:grid-flow-row w-full place-items-center">
 
-            <Button color="primary" variant="contained" onClick={reroll}  aria-label="roll" className="float-left text-lg mx-2"
-                disabled={loadingState}>
-                Roll {'\u{1F3B2}'}
-            </Button>
-            {diceState.map((die, i) => 
-                loadingState ? 
-                    <DieSkeleton key={die.color + rollCount} {...die}/>
-                :
-                    <Die key={die.color + rollCount} {...die}/> 
-            )}
+                    {diceState.map((die, i) => 
+                        loadingState ? 
+                            <DieSkeleton key={die.color + rollCount} {...die}/>
+                        :
+                            <Die key={die.color + rollCount} {...die}/> 
+                    )}
+                </div>
             </div>
         </Box>
     );
@@ -83,7 +86,7 @@ export default function Dice() {
 function DieSkeleton({color} : { color: DieColor}){
     return (
 
-        <div role="status" className={clsx(DICE_COLORCLASS.get(color),"text-8xl select-none animate-pulse flex-auto")}> 
+        <div role="status" className={clsx(DICE_COLORCLASS.get(color),"text-9xl sm:text-8xl select-none animate-pulse leading-[.75] sm:leading-[.75]")}> 
             {'\u{25FB}'}
         </div>
 
@@ -93,7 +96,7 @@ function DieSkeleton({color} : { color: DieColor}){
 
 function Die({face, color} : {face: DieFace, color: DieColor}){
     return (
-        <div className={clsx(DICE_COLORCLASS.get(color),"text-8xl select-none flex-auto", styles.die)}>
+        <div className={clsx(DICE_COLORCLASS.get(color),"text-9xl sm:text-8xl select-none leading-[.75] sm:leading-[.75]", styles.die)}>
             {DICE_UNICODE.get(face)}
         </div>
     )
